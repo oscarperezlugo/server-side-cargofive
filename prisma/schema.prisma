@@ -1,0 +1,31 @@
+// schema.prisma
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id    Int     @default(autoincrement()) @id
+  email String  @unique
+  name  String?
+  password  String?
+  posts Post[]
+}
+
+model Post {
+  id        Int     @default(autoincrement()) @id
+  postId String @unique
+  title     String
+  publishedAt String
+  author String
+  sourceLink String
+  category String
+  bodyDescription  String?
+  published Boolean @default(false)
+  user    User?   @relation(fields: [userId], references: [id])
+  userId  Int?
+}
